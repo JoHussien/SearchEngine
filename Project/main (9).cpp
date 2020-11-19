@@ -13,11 +13,11 @@ int main()
     //Creating the Webgraph
     //Will parse the csv file and connect each webpage to its number as the graph is graph of int
     int V = 4; 
-    read_webpages("location of csv file");
+    read_webpages("WebGraph.CSV");
     
     
     
-    printGraph(adj, V);
+    // printGraph(adj, V);
     first_Screen();
     
     

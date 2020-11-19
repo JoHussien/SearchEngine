@@ -3,34 +3,19 @@
 #include <list>
 #include <vector>
 using namespace std;
-map <string,int> read_webpages(string file_name){
-    ifstream open_file(file_name);
-    vector<vector<string>> pages;
-    while(!eof){
-        string source;
-        open_file>>source;
-        string path;
-        open_file>>path;
-        
-    }
+unordered_map<string,list<string >> create_Graph(int V){
+    unordered_map<string,list<string>> adjacencyList(V + 1);
+    return adjacencyList;
 }
-void create_Graph(int V, map<string, string> webPages){
-    map<string, string>::iterator it;
-    unordered_map<string,list<string >> adjacencyList(V + 1);
-    ifstream open_file(file_name);
-    vector<vector<string>> pages;
-    while(!eof){
-        string source;
-        open_file>>source;
-        string path;
-        open_file>>path;
-        adjacencyList[source].push_back(path);}
+void add_edge(unordered_map<string,list<string >> &adjacencyList, string source, string destination){
+  
+        adjacencyList[source].push_back(destination);}
     
     
     // for (it=webPages.begin(); it!=webPages.end(); it++) {
     //     // Adding Edge to the Directed Graph
     //     adjacencyList[it->first].push_back(it->second);
-
+void print_graph(unordered_map<string,list<string >> adjacencyList){
         
     for (auto& value : adjacencyList) {
         string vertex = value.first;
@@ -49,17 +34,34 @@ void create_Graph(int V, map<string, string> webPages){
         
     }
     
-}
-    int main(){
-        map<string,string> webPages;
-        webPages["test1"]="test2";
-        webPages["test1"]="test3";
-        webPages["test2"]="test3";
-        webPages["test3"]="test5";
-        create_Graph(4,webPages );
-        return 0;
-    }
 
+   
+
+void read_webpages(const char * filename){
+  
+
+ifstream file(filename);
+string data = "";
+int V=0;
+while(!file.eof())
+{
+    getline(file, data);
+    
+    V++;
+    
+}
+unordered_map<string,list<string >> graph =create_Graph(V);
+while(!file.eof())
+{
+    getline(file, data,',');
+    string source = data;
+    getline(file, data);
+    string destination = data;
+    add_edge(graph,source,destination);
+    //cout<<"source: "<<source<<"\t"<<"Destination: "<<destination<<endl;
+}
+print_graph(graph);
+}
 
 
 
