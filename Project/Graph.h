@@ -37,10 +37,11 @@ void print_graph(unordered_map<string,list<string >> adjacencyList){
 
    
 
-void read_webpages(const char * filename){
+void read_webpages(const char *filename){
   
 
-ifstream file(filename);
+ifstream file;
+file.open(filename);
 string data = "";
 int V=0;
 while(!file.eof())
