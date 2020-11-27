@@ -233,14 +233,14 @@ void ctr_click_update(int webpage_selected){
 	
 	
 void compute_score(){
-	cout<<"Yes";
+	//cout<<"Yes";
 	int V=children_number.size();
-	cout<<V<<endl;
+	//cout<<V<<endl;
 	vector<double> scores(V,0.0);
 	for(int i=0; i<V; i++){
-		cout<<"NNN";
+		//cout<<"NNN";
 		scores[i] = ((0.4 * ranks[i]) + ((1.0 - ((0.1*impressions[i])/(1+ 0.1*impressions[i])))*ranks[i] + ((0.1*impressions[i])/(1+0.1*impressions[i]))*CTRs[i])*0.6);
-		cout<<"Score web page: " <<true_vertices[i]<<" is " <<scores[i]<<endl;
+		//cout<<"Score web page: " <<true_vertices[i]<<" is " <<scores[i]<<endl;
 		}
 	myscores=scores;
 		}
@@ -289,7 +289,7 @@ int V= 4;
 // now we need to sort the vector of vertices using the vector of scores
 vector<webpage> mypages(V);
 void fill_webpages(){
-	cout<<"aloha "<<V<<endl;
+	//cout<<"aloha "<<V<<endl;
 	vector<webpage> pages(V);
 	for(int i=0; i<V; i++){
 		pages[i].index = i;
@@ -302,7 +302,7 @@ void fill_webpages(){
 	}
 
 void print_webpages(unordered_map<string,list<string >>& graph)
-{	cout<<"hey "<<mypages.size()<<endl;
+{	//cout<<"hey "<<mypages.size()<<endl;
 	//cout<<"Available webpages to search in are, select one using its full name\n";
 	int i=0; 
 	//fill_webpages();
