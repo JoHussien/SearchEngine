@@ -250,10 +250,7 @@ void update_Score(int webpage_Selected){
 		cout<<"Score web page: " <<true_vertices[i]<<" is " <<myscores[i]<<endl;
 	}
 
-struct webpage{
-	string name;
-	double score;
-	int index;};
+
 void swap(webpage* a, webpage* b)
 {
     webpage t = *a;

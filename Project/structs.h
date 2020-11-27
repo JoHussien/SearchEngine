@@ -12,3 +12,7 @@ struct Edge{
     int srcId;
 };
 
+struct webpage{
+	string name;
+	double score;
+	int index;};

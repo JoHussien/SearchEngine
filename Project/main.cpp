@@ -9,7 +9,7 @@
 #include <algorithm>
 using namespace std;
 #include "structs.h"
-#include "Graph.h"
+#include "GraphandFunctions.h"
 #include "Screens.h"
 //#include "WebGraphfile.h"
 int main()
@@ -22,7 +22,7 @@ int main()
     unordered_map<string,list<string >> graph;
 	vector<Edge> edges;
     read_webpages(filename,graph,edges);
-    cout<<"The WebGRaph Constructed is :\n";
+    //cout<<"The WebGRaph Constructed is :\n";
     //print_graph(graph);
     vector<int> childrennumber= children_count(graph);
     vector<double> ranks = page_rank(graph);
