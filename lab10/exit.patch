@@ -1,0 +1,14 @@
+--- exit_old.c	2021-05-18 23:27:35.358228153 +0200
++++ exit.c	2021-05-18 23:29:57.430480982 +0200
+@@ -899,10 +899,7 @@
+ 		}
+ 		spin_unlock_irq(&sighand->siglock);
+ 	}
+-	if(current->pfork_active_pid == 0)
+-		{struct pid *myvar = find_vpid(current->pfork_standby_pid);
+-		 kill_pid(myvar,SIGCONT,1);	
+-		}
++	
+ 	do_exit(exit_code);
+ 	/* NOTREACHED */
+ }
