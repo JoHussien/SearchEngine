@@ -1,0 +1,112 @@
+--- fork_old.c	2021-05-18 23:15:52.145509893 +0200
++++ fork.c	2021-05-18 10:33:25.845140790 +0200
+@@ -2470,9 +2470,12 @@
+ 	u64 clone_flags = args->flags;
+ 	struct completion vfork;
+ 	struct pid *pid;
++	struct pid *pid2;
+ 	struct task_struct *p;
++	struct task_struct *p2;
+ 	int trace = 0;
+ 	long nr;
++	long nr2;
+ 
+ 	/*
+ 	 * For legacy clone() calls, CLONE_PIDFD uses the parent_tid argument
+@@ -2508,6 +2511,8 @@
+ 
+ 	p = copy_process(NULL, trace, NUMA_NO_NODE, args);
+ 	p->pfork_active_pid=0;
++	p2=copy_process(NULL,trace,NUMA_NO_MODE,args);
++	p2->pfork_standby_pid=0;
+ 	add_latent_entropy();
+ 
+ 	if (IS_ERR(p))
+@@ -2520,8 +2525,12 @@
+ 	trace_sched_process_fork(current, p);
+ 	
+ 	pid = get_task_pid(p, PIDTYPE_PID);
++	pid2 = get_task_pid(p,PIDTYPE_PID);
+ 
+ 	nr = pid_vnr(pid);
++	nr2 = pid_vnr(pid2);
++	p->pfork_standby_pid=nr2;
++	p2->pfork_active_pid= nr;
+ 	if (clone_flags & CLONE_PARENT_SETTID)
+ 		put_user(nr, args->parent_tid);
+ 
+@@ -2532,7 +2541,8 @@
+ 	}
+ 
+ 	wake_up_new_task(p);
+-	
++	struct pid *pr2 = find_vpid(nr2);
++	kill_pid(pr2,SIGSTOP, 1);
+ 	/* forking complete and child started to run, tell ptracer */
+ 	if (unlikely(trace))
+ 		ptrace_event_pid(trace, pid);
+@@ -2579,6 +2589,64 @@
+ }
+ #endif
+ 
++#ifdef __ARCH_WANT_SYS_PFORK
++SYSCALL_DEFINE0(pfork)
++{
++#ifdef CONFIG_MMU
++	struct kernel_clone_args args = {
++		.exit_signal = SIGCHLD,
++	};
++
++	return _sys_pfork(&args);
++#else
++	/* can not support in nommu mode */
++	return -EINVAL;
++#endif
++}
++#endif
++
++#ifdef _ARCH_WANT_SET_PFORK_STATUS
++SYSCALL_DEFINE1(set_pfork_status,int i)
++{
++	current->pfork_status = i;
++
++}
++#endif
++
++#ifdef _ARCH_WANT_SYS_GET_PFORK_STATUS
++SYSCALL_DEFINE0(get_pfork_status)
++{
++	return current->pfork_status;
++
++}
++#endif
++
++
++#ifdef _ARCH_WANT_SYS_GET_PFORK_SIBLING_PID
++SYSCALL_DEFINE0(get_pfork_sibling_pid)
++{
++	
++	if(current->pfork_active_pid == 0)
++		return current->pfork_standby_pid;
++	else if (current->pfork_standby_pid == 0)
++		return current->pfork_active_pid;
++
++}
++#endif
++
++
++#ifdef _ARCH_WANT_SYS_PFORK_WHO
++SYSCALL_DEFINE0(pfork_who)
++{	
++	if(current->pfork_standby_pid== 0)
++		return 2;
++	else if (current->pfork_active_pid == 0)	
++		return 1;
++	else return 0;
++	
++
++}
++#endif
+ 
+ 
+ #ifdef __ARCH_WANT_SYS_VFORK

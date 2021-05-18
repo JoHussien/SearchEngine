@@ -1,0 +1,14 @@
+--- syscalls_old.h	2021-05-18 23:17:08.882777251 +0200
++++ syscalls.h	2021-05-18 23:21:11.333031128 +0200
+@@ -285,6 +285,11 @@
+  * include the prototypes if CONFIG_ARCH_HAS_SYSCALL_WRAPPER is enabled.
+  */
+ #ifndef CONFIG_ARCH_HAS_SYSCALL_WRAPPER
++asmlinkage long sys_pfork(void);
++asmlinkage void sys_set_pfork_status(volatile long status);
++asmlinkage long sys_get_pfork_status();
++asmlinkage long sys_get_pfork_sibling_pid();
++asmlinkage long sys_get_pfork_who();
+ asmlinkage long sys_io_setup(unsigned nr_reqs, aio_context_t __user *ctx);
+ asmlinkage long sys_io_destroy(aio_context_t ctx);
+ asmlinkage long sys_io_submit(aio_context_t, long,

@@ -1,0 +1,14 @@
+--- syscall_64_old.tbl	2021-05-18 23:07:16.941906849 +0200
++++ syscall_64.tbl	2021-05-18 09:22:54.327388074 +0200
+@@ -343,6 +343,11 @@
+ 332	common	statx			sys_statx
+ 333	common	io_pgetevents		sys_io_pgetevents
+ 334	common	rseq			sys_rseq
++335	common  pfork			sys_pfork
++336	common	set_pfork_status	sys_set_pfork_status
++337	common	get_pfork_status	sys_get_pfork_status
++338	common	get_pfork_sibling_pid	sys_get_pfork_sibling_pid
++339	common	pfork_who		sys_pfork_who
+ # don't use numbers 387 through 423, add new calls after the last
+ # 'common' entry
+ 424	common	pidfd_send_signal	sys_pidfd_send_signal
